@@ -1,81 +1,82 @@
-# Configuration des Assets - Maya MMO
+# Assets Setup - Maya MMO
 
-## Après importation des assets
+## After Asset Import
 
-### 1. Préparer les assets pour Unreal Engine 5
+### 1. Prepare Assets for Godot 4
 
-#### Placez les fichiers téléchargés dans :
+#### Place downloaded files in:
 ```
-client/MayaGame/Content/Assets/
-├── Meshes/Props/        # Bâtiments, objets
-├── Meshes/Vegetation/   # Arbres, plantes, fleurs
-├── Meshes/Characters/   # Personnages
-├── Textures/Terrain/    # Textures de sol, herbe
-└── Materials/           # Matériaux PBR
+client/
+├── scenes/              # Godot scenes
+├── shaders/            # Custom shaders (.gdshader)
+├── scripts/            # GDScript files
+├── styles/             # UI styles (.tres)
+└── icons/              # UI icons and images
 ```
 
-### 2. Dans Unreal Editor
+### 2. In Godot Editor
 
-1. **Ouvrir le projet** `client/MayaGame/MayaGame.uproject`
-2. **Voir les assets** dans Content Browser
-3. **Activer Nanite** (clic droit sur mesh > Enable Nanite)
-4. **Configurer Lumen** :
-   - Project Settings > Rendering > Lumen
-   - Activer "Use Lumen Global Illumination"
+1. **Open the project** - Launch `client/project.godot` with Godot 4.6+
+2. **View assets** in FileSystem dock
+3. **Import settings** - Select asset > Import tab > Configure
+4. **Configure 3D settings**:
+   - Enable shadow casting for meshes
+   - Set up collision shapes for interactive objects
 
-### 3. Créer le niveau féérique
+### 3. Create Fey Wild Scene
 
-#### Landscape
-- Mode Landscape > Create
-- Import heightmap ou sculptez à la main
-- Appliquer textures de sol (grass, dirt, stone)
+#### Terrain
+- Use `World3D` node as root
+- Add `MeshInstance3D` for ground with `PlaneMesh`
+- Apply terrain textures (grass, dirt, stone)
 
-#### Foliage (Forer féérique dense)
-- Mode Foliage > Paint
-- Ajouter arbres, buissons, fleurs
-- Activer "Affect Dynamic Indirect Lighting" pour Lumen
+#### Foliage (Dense Fey Vegetation)
+- Create `MeshInstance3D` nodes for trees, bushes, flowers
+- Use `GPUParticles3D` for magical dust effects
+- Enable proper materials with emission for magical glow
 
-#### Éclairage magique
-- Ajouter Point Lights avec couleurs irisées
-- Exponential Height Fog (brouillard féérique)
-- Sky Light avec HDRI de Poly Haven
+#### Magical Lighting
+- Add `DirectionalLight3D` for main light
+- Add `PointLight3D` with iridescent colors
+- Configure `WorldEnvironment` with fog and glow effects
 
-### 4. Importer les personnages (Mixamo)
+### 4. Import Characters
 
-1. Télécharger sur mixamo.com
-2. Format : FBX avec "Skin" et "Animation"
-3. Importer dans UE5
-4. Créer Animation Blueprint
+1. Download from Mixamo or create custom
+2. Format: GLTF/GLB (Godot native support)
+3. Import into `client/scenes/player/`
+4. Create character scene with `CharacterBody3D`
 
-### 5. Script automatique d'import (optionnel)
+### 5. Automated Import Script (Optional)
 
 ```python
-# Dans Unreal Python console
-import unreal
+# tools/asset_importer.py
+import os
+import json
 
-def batch_import():
-    asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
-    # Configuration import FBX
-    import_options = unreal.FbxImportUI()
-    import_options.set_editor_property('import_mesh', True)
-    import_options.set_editor_property('import_textures', True)
+def batch_import_assets(source_dir, target_dir):
+    """Batch import assets and generate .import files"""
+    for file in os.listdir(source_dir):
+        if file.endswith(('.glb', '.gltf')):
+            # Godot auto-imports GLTF files
+            print(f"Importing: {file}")
 ```
 
-## Assets recommandés pour Maya MMO
+## Recommended Assets for Maya MMO
 
-### Environnement féérique
-- **Arbres** : European Beech (Quixel), Weeping Willow
-- **Rochers** : Poly Haven rocks (Nanite)
-- **Plantes magiques** : Glowing mushrooms, Crystal formations
-- **Eau** : Lake/river avec plan reflectant
+### Fey Environment
+- **Trees**: Stylized trees with magical variations
+- **Rocks**: Low-poly rocks with moss
+- **Magical Plants**: Glowing mushrooms, crystal formations
+- **Water**: Reflective lakes/rivers with shader effects
 
-### Bâtiments/P&L
-- Ruines antiques
-- Tentes/Pavillons (style féérique)
-- Autels magiques
-- Portails
+### Buildings/Props
+- Ancient ruins
+- Fairy tents/pavilions
+- Magical altars
+- Portals
 
-### Effets (Niagara)
-- Poussière féérique
-- Étincelles magiques
-- Brouillard lumineux
+### Effects (GPUParticles3D)
+- Fairy dust
+- Magical sparks
+- Glowing fog

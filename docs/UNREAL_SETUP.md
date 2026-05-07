@@ -1,71 +1,59 @@
-# Configuration Unreal Engine 5 - Maya MMO
+# Unreal Engine 5 Setup - Maya MMO (DEPRECATED)
 
-## Prérequis
+**Note**: This project has migrated from Unreal Engine 5 to Godot 4.6+.
+This document is kept for historical reference only.
 
-- Unreal Engine 5.3+ installé via Epic Games Launcher
-- Visual Studio 2022 (Community Edition suffit) avec :
-  - Développement Desktop en C++
+## Prerequisites
+
+- Unreal Engine 5.3+ installed via Epic Games Launcher
+- Visual Studio 2022 (Community Edition sufficient) with:
+  - Desktop development with C++
   - Windows 10/11 SDK
 
-## Structure du projet Unreal
+## Unreal Project Structure (Legacy)
 
 ```
 client/MayaGame/
-├── MayaGame.uproject          # Fichier projet Unreal
+├── MayaGame.uproject          # Unreal project file
 ├── Source/
-│   └── MayaGame/             # Module principal C++
-│       ├── MayaGame.Build.cs  # Dépendances du module
+│   └── MayaGame/             # Main C++ module
+│       ├── MayaGame.Build.cs  # Module dependencies
 │       ├── Public/           # Headers (.h)
 │       │   ├── Network/      # NetworkManager
 │       │   ├── Player/       # PlayerController
 │       │   └── Game/         # GameInstance
-│       └── Private/          # Implémentations (.cpp)
-├── Content/                   # Assets du jeu
+│       └── Private/          # Implementations (.cpp)
+├── Content/                   # Game assets
 │   ├── Blueprints/           # Blueprints
-│   ├── Materials/            # Matériaux (PBR, Nanite)
-│   ├── Meshes/               # Modèles 3D (support Nanite)
-│   ├── Textures/             # Textures (support Virtual Texture)
-│   ├── Levels/               # Cartes du monde féérique
+│   ├── Materials/            # Materials (PBR, Nanite)
+│   ├── Meshes/               # 3D models (Nanite support)
+│   ├── Textures/             # Textures (Virtual Texture support)
+│   ├── Levels/               # Fey world maps
 │   └── UI/                   # Interface (UMG)
 └── Config/                    # Configuration
-    ├── DefaultEngine.ini     # Moteur et réseau
-    └── DefaultInput.ini      # Contrôles
+    ├── DefaultEngine.ini     # Engine and network
+    └── DefaultInput.ini      # Controls
 ```
 
-## Fonctionnalités Unreal utilisées
+## Unreal Features Used (Legacy)
 
-### Rendu graphique (Monde féérique)
-- **Nanite** - Maillages virtuels pour forêts denses et détails extrêmes
-- **Lumen** - Éclairage global dynamique (lumières féériques, magie)
-- **Virtual Shadow Maps** - Ombres haute résolution
-- **Temporal Super Resolution** - Upscaling pour performance
+### Rendering (Fey World)
+- **Nanite** - Virtual geometry for dense forests and extreme details
+- **Lumen** - Dynamic global illumination (fey lights, magic)
+- **Virtual Shadow Maps** - High resolution shadows
+- **Temporal Super Resolution** - Upscaling for performance
 
 ### Gameplay
-- **C++** pour la logique réseau et systèmes critiques
-- **Blueprints** pour prototypage rapide et gameplay
-- **Gameplay Ability System** (optionnel) pour compétences/artisanat
+- **C++** for network logic and critical systems
+- **Blueprints** for rapid prototyping and gameplay
+- **Gameplay Ability System** (optional) for skills/crafting
 
-### Réseau
-- **WebSockets** natifs (module WebSockets d'Unreal)
-- Communication avec serveur Node.js via JSON
-- Interpolation côté client pour fluidité
+### Network
+- **WebSockets** native (Unreal WebSockets module)
+- Communication with Node.js server via JSON
+- Client-side interpolation for smoothness
 
-## Compilation
+## Current Setup (Godot 4.6+)
 
-1. Ouvrir `MayaGame.uproject`
-2. Si demandé, reconstruire les modules : "Yes"
-3. Dans Unreal : Tools → Compile
-
-Ou en ligne de commande :
-```bash
-cd client/MayaGame
-"C:\Program Files\Epic Games\UE_5.3\Engine\Build\BatchFiles\Build.bat" MayaGame Win64 Development
-```
-
-## Prochaines étapes
-
-1. Créer le monde féérique avec Landscape et Foliage
-2. Importer/Migrer des assets (Megascans, Marketplace)
-3. Implémenter le système de territoire visuel
-4. Créer l'UI d'artisanat et de jardinage
-5. Intégrer les effets magiques (Niagara)
+The project now uses Godot 4.6+ instead of Unreal Engine.
+See `README.md` for current setup instructions.

@@ -1,71 +1,71 @@
-# Architecture Technique - Maya MMO
+# Technical Architecture - Maya MMO
 
-## Vue d'ensemble
+## Overview
 
-Architecture client-serveur avec simulation serveur authoritative et interpolation côté client.
+Client-server architecture with authoritative server simulation and client-side interpolation.
 
-## Structure du Serveur (ECS)
+## Server Structure (ECS)
 
 ```
 server/src/
-├── systems/           # Systèmes ECS
-│   ├── TerritorySystem.ts    # Gestion territoires
-│   ├── CraftingSystem.ts    # Artisanat
-│   ├── FarmingSystem.ts     # Jardinage
-│   ├── MiningSystem.ts      # Minage
+├── systems/           # ECS Systems
+│   ├── TerritorySystem.ts    # Territory management
+│   ├── CraftingSystem.ts    # Crafting
+│   ├── FarmingSystem.ts     # Gardening
+│   ├── MiningSystem.ts      # Mining
 │   ├── BuildingSystem.ts    # Construction
-│   ├── CombatSystem.ts      # Combat PvP/PvE
-│   └── EconomySystem.ts    # Économie
-├── entities/         # Composants d'entités
+│   ├── CombatSystem.ts      # PvP/PvE combat
+│   └── EconomySystem.ts    # Economy
+├── entities/         # Entity components
 │   ├── Player.ts
 │   ├── Territory.ts
 │   ├── Building.ts
 │   └── Item.ts
-├── networking/       # Gestion réseau
+├── networking/       # Network management
 │   ├── WebSocketServer.ts
 │   ├── Protocol.ts
 │   └── GameLoop.ts
-├── database/         # Accès données
+├── database/         # Data access
 │   ├── PostgreSQL.ts
 │   ├── Redis.ts
 │   └── Repositories/
-└── utils/           # Utilitaires
+└── utils/           # Utilities
 ```
 
-## Systèmes de Gameplay
+## Gameplay Systems
 
-### 1. Système de Territoire
-- Claim de territoire via achat ou conquête
-- Expansion progressive
-- Taxes et maintenance
-- Bâtiments autorisés selon niveau
+### 1. Territory System
+- Territory claim via purchase or conquest
+- Progressive expansion
+- Taxes and maintenance
+- Buildings authorized by level
 
-### 2. Système d'Artisanat
-- Gathering (minage, récolte, forestry)
-- Processing (fonderie, travail du bois, tissage)
-- Crafting (armes, armures, bâtiments, outils)
+### 2. Crafting System
+- Gathering (mining, harvesting, forestry)
+- Processing (smelting, woodworking, weaving)
+- Crafting (weapons, armor, buildings, tools)
 
-### 3. Système de Jardinage
-- Cultures avec cycles de croissance réels
-- Saisonnalité
-- Croisements génétiques
-- Effets magiques sur les plantes
+### 3. Gardening System
+- Crops with real growth cycles
+- Seasonality
+- Genetic crossbreeding
+- Magical effects on plants
 
-### 4. Système de Construction
-- Placement libre dans son territoire
-- Bâtiments fonctionnels (ateliers, entrepôts, défenses)
-- Décorations
-- Mécaniques de siège
+### 4. Construction System
+- Free placement within territory
+- Functional buildings (workshops, warehouses, defenses)
+- Decorations
+- Siege mechanics
 
-### 5. Système de Combat
-- PvP territorial
-- PvE (créatures féériques)
-- Pas de leveling traditionnel
-- Progression par compétences et équipement
+### 5. Combat System
+- Territorial PvP
+- PvE (fairy creatures)
+- No traditional leveling
+- Progression through skills and equipment
 
-## Protocole Réseau
+## Network Protocol
 
-### Messages Client -> Serveur
+### Client -> Server Messages
 ```
 - PlayerMove { x, y, z, rotation }
 - Interact { entityId, action }
@@ -75,7 +75,7 @@ server/src/
 - ClaimTerritory { position, size }
 ```
 
-### Messages Serveur -> Client
+### Server -> Client Messages
 ```
 - EntityUpdate { id, position, state }
 - TerritoryUpdate { territoryId, changes }
@@ -83,22 +83,22 @@ server/src/
 - ChatMessage { sender, message }
 ```
 
-## Base de Données
+## Database
 
-### PostgreSQL (Données persistantes)
+### PostgreSQL (Persistent Data)
 - players
 - territories
 - buildings
 - items
 - factions
 
-### Redis (Données temps réel)
-- Positions entités actives
-- États des cultures
-- Files d'attente de craft
-- Cache des sessions
+### Redis (Real-time Data)
+- Active entity positions
+- Crop states
+- Craft queues
+- Session cache
 
-## Loop de Simulation
+## Simulation Loop
 
 ```
 1. Input Handling (60Hz)
@@ -110,6 +110,6 @@ server/src/
 
 ## Scaling
 
-- Sharding par zones géographiques
-- Instance separation pour donjons/raids
-- Load balancing WebSocket
+- Sharding by geographic zones
+- Instance separation for dungeons/raids
+- WebSocket load balancing
