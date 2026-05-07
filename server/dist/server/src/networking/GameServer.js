@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GameServer = void 0;
 const ws_1 = require("ws");
-const Protocol_1 = require("@shared/protocol/Protocol");
+const Protocol_1 = require("../../shared/protocol/Protocol");
 class GameServer {
     constructor(port) {
         this.clients = new Map();

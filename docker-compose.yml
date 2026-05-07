@@ -1,49 +1,36 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  # Serveur Node.js (Maya MMO)
-  server:
-    build:
-      context: .
-      dockerfile: ./server/Dockerfile
-    ports:
-      - "8080:8080"
-    environment:
-      - NODE_ENV=development
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=maya_mmo
-      - DB_USER=maya
-      - DB_PASSWORD=maya_password
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./server:/app
-      - /app/node_modules
-    command: npm run dev
-
-  # Base de données PostgreSQL
   postgres:
     image: postgres:16-alpine
+    container_name: maya_postgres
+    environment:
+      POSTGRES_DB: maya_mmo
+      POSTGRES_USER: maya
+      POSTGRES_PASSWORD: your_password
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_DB=maya_mmo
-      - POSTGRES_USER=maya
-      - POSTGRES_PASSWORD=maya_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./server/src/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maya"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  # Cache Redis (temps réel)
   redis:
     image: redis:7-alpine
+    container_name: maya_redis
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
 volumes:
   postgres_data:

@@ -54,4 +54,9 @@ export class TerritorySystem {
   getPlayerTerritory(playerId: string): Territory | undefined {
     return Array.from(this.territories.values()).find(t => t.ownerId === playerId);
   }
+
+  update(): void {
+    // Placeholder for territory updates (tax collection, decay, etc.)
+    // This runs at the game loop tick rate
+  }
 }

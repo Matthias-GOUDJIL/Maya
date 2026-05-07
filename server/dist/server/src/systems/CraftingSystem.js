@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CraftingSystem = void 0;
-const GameTypes_1 = require("@shared/types/GameTypes");
+const GameTypes_1 = require("../../shared/types/GameTypes");
 class CraftingSystem {
     constructor() {
         this.recipes = new Map();

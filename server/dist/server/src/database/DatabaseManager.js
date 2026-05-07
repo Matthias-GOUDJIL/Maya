@@ -33,42 +33,56 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const GameServer_1 = require("./networking/GameServer");
-const TerritorySystem_1 = require("./systems/TerritorySystem");
-const DatabaseManager_1 = require("./database/DatabaseManager");
-const RedisManager_1 = require("./database/RedisManager");
+exports.DatabaseManager = void 0;
+const pg_1 = require("pg");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-const PORT = parseInt(process.env.PORT || "8080");
-const gameServer = new GameServer_1.GameServer(PORT);
-const territorySystem = new TerritorySystem_1.TerritorySystem();
-const db = DatabaseManager_1.DatabaseManager.getInstance();
-const redis = RedisManager_1.RedisManager.getInstance();
-async function initialize() {
-    console.log(`
-╔══════════════════════════════════════╗
-║          Maya MMO Server             ║
-║     Sandbox Fantastique v0.1.0       ║
-╚══════════════════════════════════════╝
-`);
-    try {
-        await redis.connect();
-        console.log("✓ Redis connected");
-        const dbHealthy = await db.healthCheck();
-        if (dbHealthy) {
-            console.log("✓ PostgreSQL connected");
+class DatabaseManager {
+    constructor() {
+        this.pool = new pg_1.Pool({
+            host: process.env.DB_HOST || "localhost",
+            port: parseInt(process.env.DB_PORT || "5432"),
+            database: process.env.DB_NAME || "maya_mmo",
+            user: process.env.DB_USER || "maya",
+            password: process.env.DB_PASSWORD || "your_password",
+            max: 20,
+            idleTimeoutMillis: 30000,
+            connectionTimeoutMillis: 2000,
+        });
+        this.pool.on("error", (err) => {
+            console.error("Unexpected database error:", err);
+        });
+    }
+    static getInstance() {
+        if (!DatabaseManager.instance) {
+            DatabaseManager.instance = new DatabaseManager();
         }
-        else {
-            console.warn("⚠ PostgreSQL not available - running without persistence");
+        return DatabaseManager.instance;
+    }
+    async query(text, params) {
+        const client = await this.pool.connect();
+        try {
+            const result = await client.query(text, params);
+            return result;
+        }
+        finally {
+            client.release();
         }
     }
-    catch (err) {
-        console.error("Initialization error:", err);
+    async getClient() {
+        return await this.pool.connect();
     }
-    const tickRate = parseInt(process.env.TICK_RATE || "20");
-    setInterval(() => {
-        territorySystem.update();
-    }, 1000 / tickRate);
-    console.log(`Game loop running at ${tickRate}Hz`);
+    async close() {
+        await this.pool.end();
+    }
+    async healthCheck() {
+        try {
+            await this.query("SELECT 1");
+            return true;
+        }
+        catch {
+            return false;
+        }
+    }
 }
-initialize();
+exports.DatabaseManager = DatabaseManager;
