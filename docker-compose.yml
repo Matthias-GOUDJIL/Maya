@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Serveur Node.js (Maya MMO)
+  server:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=maya_mmo
+      - DB_USER=maya
+      - DB_PASSWORD=maya_password
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    command: npm run dev
+
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=maya_mmo
+      - POSTGRES_USER=maya
+      - POSTGRES_PASSWORD=maya_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Cache Redis (temps réel)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

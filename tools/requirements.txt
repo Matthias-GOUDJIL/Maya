@@ -1,0 +1,9 @@
+# Maya MMO - Asset Importer Requirements
+# Python 3.8+ (aucune dépendance externe nécessaire)
+# Utilise uniquement la bibliothèque standard
+
+# Pour utiliser l'API Quixel Megascans (optionnel):
+# requests>=2.28.0
+
+# Pour le traitement d'images (optionnel):
+# Pillow>=9.0.0

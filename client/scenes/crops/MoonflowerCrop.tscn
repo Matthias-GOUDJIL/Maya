@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/FarmingSystem.gd" id="1_farm"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_crop"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StdMat_crop"]
+albedo_color = Color(0.5, 0.2, 0.8, 1.0)
+emission_enabled = true
+emission = Color(0.5, 0.2, 0.8, 1.0)
+
+[node name="MoonflowerCrop" type="Node3D"]
+script = ExtResource("1_farm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_crop")
+material_override = SubResource("StdMat_crop")
+
+[node name="PointLight3D" type="PointLight3D" parent="."]
+light_color = Color(0.5, 0.3, 0.8, 1.0)
+light_energy = 0.5
+shadow_enabled = false

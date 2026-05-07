@@ -1,0 +1,51 @@
+# Godot 4+ specific ignores
+.godot/
+
+# Keep uid_cache.bin (stores UIDs for assets)
+!.godot/uid_cache.bin
+
+# Godot import artifacts (keep .import files, they're needed)
+# But ignore the actual imported files
+.godot/imported/
+
+# Shader cache - lots of files generated at runtime
+.godot/shader_cache/
+
+# Godot 4+ mono specific ignores
+# Mono glue / build
+data_*/
+mono_crash.*.json
+
+# C# artifacts
+*.csproj
+*.sln
+*.suo
+*.userprefs
+*.dll
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build/export outputs
+exports/
+build/
+
+# Node.js dependencies (for server/)
+**/node_modules/
+
+# Temporary files
+*.tmp
+*.log

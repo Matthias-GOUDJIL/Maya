@@ -1,0 +1,45 @@
+{
+  "project": "Maya MMO",
+  "version": "0.1.0",
+  "sources": [
+    {
+      "name": "Poly Haven",
+      "url": "https://polyhaven.com",
+      "license": "CC0",
+      "asset_types": ["3D models", "Textures", "HDRIs"],
+      "ue5_support": ["Nanite", "Lumen"]
+    },
+    {
+      "name": "Mixamo",
+      "url": "https://mixamo.com",
+      "license": "Free (Adobe account)",
+      "asset_types": ["Characters", "Animations"],
+      "format": "FBX"
+    },
+    {
+      "name": "Quixel Megascans",
+      "url": "https://quixel.com/megascans",
+      "license": "Free for UE5",
+      "asset_types": ["3D scans", "Surfaces", "Vegetation"],
+      "ue5_support": ["Nanite", "Lumen", "Virtual Textures"]
+    },
+    {
+      "name": "Kenney Assets",
+      "url": "https://kenney.nl",
+      "license": "CC0",
+      "asset_types": ["Low-poly packs", "UI elements"]
+    }
+  ],
+  "recommended_packs": {
+    "fantasy_environment": [
+      "Poly Haven: Medieval structures",
+      "Quixel: European Beech Forest",
+      "Megascans: Ruined Castle"
+    ],
+    "fey_features": [
+      "Glowing mushrooms pack",
+      "Magical crystals (Megascans)",
+      "Fairy circles vegetation"
+    ]
+  }
+}

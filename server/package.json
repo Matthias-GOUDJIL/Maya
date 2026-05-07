@@ -1,0 +1,30 @@
+{
+  "name": "maya-server",
+  "version": "0.1.0",
+  "description": "Serveur MMO Sandbox Maya",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.0",
+    "pg": "^8.11.0",
+    "redis": "^4.6.0",
+    "uuid": "^9.0.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.10.0",
+    "@types/uuid": "^9.0.0",
+    "@types/ws": "^8.5.0",
+    "jest": "^29.7.0",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  }
+}

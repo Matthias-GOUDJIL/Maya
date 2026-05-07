@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/InventoryUI.gd" id="1_inv"]
+[ext_resource type="StyleBox" path="res://styles/panel_style.tres" id="2_style"]
+
+[node name="InventoryUI" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_inv")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.2
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_style")
+
+[node name="Title" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 9
+anchor_left = 0.1
+anchor_top = 0.05
+anchor_right = 0.9
+anchor_bottom = 0.1
+grow_horizontal = 2
+grow_vertical = 2
+text = "Inventaire"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.05
+anchor_top = 0.15
+anchor_right = 0.95
+anchor_bottom = 0.85
+grow_horizontal = 2
+grow_vertical = 2
+columns = 8
+
+[node name="CloseButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.8
+anchor_top = 0.9
+anchor_right = 0.95
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fermer"

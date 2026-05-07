@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/FarmingSystem.gd" id="1_farm"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_crop"]
+height = 1.0
+top_radius = 0.1
+bottom_radius = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StdMat_crop"]
+albedo_color = Color(0.9, 0.8, 0.2, 1.0)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape_crop"]
+height = 1.0
+radius = 0.15
+
+[node name="WheatCrop" type="Node3D"]
+script = ExtResource("1_farm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_crop")
+material_override = SubResource("StdMat_crop")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape_crop")

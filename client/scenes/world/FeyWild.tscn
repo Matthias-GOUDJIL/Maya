@@ -1,0 +1,116 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/network/NetworkManager.gd" id="1_network"]
+[ext_resource type="Shader" path="res://shaders/magical_water.gdshader" id="1_water"]
+[ext_resource type="Environment" path="res://scenes/world/FeyWild.tres" id="1_env"]
+[ext_resource type="GDScript" path="res://scripts/player/PlayerController.gd" id="1_player"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StdMat_ground"]
+albedo_color = Color(0.3, 0.5, 0.2, 1.0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+size = Vector2(50, 50)
+
+[sub_resource type="ShaderMaterial" id="ShaderMat_water"]
+shader = ExtResource("1_water")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleMat_dust"]
+emission_shape = 2
+emission_sphere_radius = 10.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_dust"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
+top_radius = 0.3
+bottom_radius = 0.5
+height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StdMat_trunk"]
+albedo_color = Color(0.4, 0.3, 0.2, 1.0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_foliage"]
+radius = 2.0
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StdMat_foliage"]
+albedo_color = Color(0.2, 0.6, 0.3, 1.0)
+emission_enabled = true
+emission = Color(0.2, 0.6, 0.3, 1.0)
+emission_energy = 0.3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
+radius = 0.5
+height = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_player"]
+size = Vector3(1, 2, 1)
+
+[node name="Main" type="Node"]
+
+[node name="NetworkManager" type="Node" parent="."]
+script = ExtResource("1_network")
+
+[node name="World3D" type="Node3D" parent="."]
+
+[node name="Environment" type="WorldEnvironment" parent="World3D"]
+environment = ExtResource("1_env")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World3D"]
+position = Vector3(0, 10, 0)
+rotation = Vector3(-0.5, 0, 0)
+light_color = Color(1.0, 0.9, 0.7, 1.0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="World3D"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("PlaneMesh_ground")
+material_override = SubResource("StdMat_ground")
+
+[node name="Water" type="MeshInstance3D" parent="World3D"]
+position = Vector3(0, 0.1, 0)
+mesh = SubResource("PlaneMesh_water")
+material_override = SubResource("ShaderMat_water")
+
+[node name="FairyDust" type="GPUParticles3D" parent="World3D"]
+position = Vector3(0, 2, 0)
+amount = 200
+lifetime = 3.0
+one_shot = false
+process_material = SubResource("ParticleMat_dust")
+draw_pass_1 = SubResource("QuadMesh_dust")
+
+[node name="MagicalTree" type="Node3D" parent="World3D"]
+position = Vector3(5, 0, 5)
+
+[node name="Trunk" type="MeshInstance3D" parent="World3D/MagicalTree"]
+position = Vector3(0, 2, 0)
+mesh = SubResource("CylinderMesh_trunk")
+material_override = SubResource("StdMat_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="World3D/MagicalTree"]
+position = Vector3(0, 4, 0)
+mesh = SubResource("SphereMesh_foliage")
+material_override = SubResource("StdMat_foliage")
+
+[node name="Player" type="CharacterBody3D" parent="World3D"]
+position = Vector3(0, 1, 0)
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World3D/Player"]
+shape = SubResource("CapsuleShape_player")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World3D/Player"]
+mesh = SubResource("BoxMesh_player")
+
+[node name="Camera3D" type="Camera3D" parent="World3D/Player"]
+position = Vector3(0, 3, 5)
+
+[node name="HUD" parent="."]
+
+[node name="InventoryUI" parent="."]
+
+[node name="CraftingUI" parent="."]
