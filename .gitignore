@@ -49,3 +49,6 @@ build/
 # Temporary files
 *.tmp
 *.log
+
+# env files (if you use them for local environment variables)
+.env
